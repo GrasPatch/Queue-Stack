@@ -1,0 +1,85 @@
+MAX_Size = 5
+queue = [None] * MAX_Size
+front = -1
+rear = -1
+
+def enqueue (item):
+    global rear
+    global front # Added to fix UnboundLocalError
+    if rear == MAX_Size - 1:
+        print ("Queue is full")
+    elif front == -1:
+        front = 0
+        rear = 0
+        queue[rear] = item
+    else: # Added to handle adding to a non-empty, non-full queue
+        rear = rear + 1
+        queue[rear] = item
+def dequeue ():
+    global front
+    global rear # Added for consistency, though primarily 'front' is modified here
+    if front == -1:
+        print ("Queue is empty")
+        return None # Return None if queue is empty
+    else:
+        dequeued_item = queue[front]
+        queue[front] = None # Clear the dequeued slot
+        if front == rear:
+            front = -1
+            rear = -1
+        else:
+            front = front + 1
+        return dequeued_item # Return the dequeued item
+def is_empty ():
+    if front == -1:
+        return True
+    else:
+        return False
+def size():
+    if is_empty():
+        return 0
+    elif front == rear:
+        return 1
+    else:
+        return (rear - front) + 1
+def peek():
+    if is_empty():
+        print ("Queue is empty")
+        return None # Return None if queue is empty
+    else:
+        return queue[front]
+def display():
+    if is_empty():
+        return "Queue is empty"
+    else:
+        elements = []
+        for i in range (front, rear + 1):
+            elements.append(str(queue[i]))
+        return "\n".join(elements) # Return a string representation
+
+  # Enqueue elements
+enqueue('Jane')
+enqueue('Peter')
+enqueue('Sam')
+
+# Dequeue elements
+print("Dequeued:", dequeue())
+print("Dequeued:", dequeue())
+print("Dequeued:", dequeue())
+
+# output queue
+print("Current Queue:\n", display()) # Modified print statement for better output
+
+# Peek at the front element
+print("Front element:", peek())
+
+# Check size of the queue
+print("Queue size:", size())
+
+# Enqueue more elements to demonstrate overflow
+enqueue(40)
+enqueue(50)
+enqueue(60)
+enqueue(70)
+enqueue(80)
+enqueue(90)
